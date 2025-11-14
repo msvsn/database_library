@@ -1,0 +1,63 @@
+<Window x:Class="StudentLibraryApp.ActiveLoansWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="АКТИВНІ ВИДАЧІ" Height="700" Width="1200"
+        Background="#ECF0F1" WindowStartupLocation="CenterScreen">
+    <!-- Головний контейнер Grid -->
+    <Grid Margin="20">
+        <!-- Визначення рядків у Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок вікна -->
+        <TextBlock Text="АКТИВНІ ВИДАЧІ" FontSize="32" FontWeight="Bold" 
+                   Foreground="#2C3E50" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <!-- Панель для фільтрів -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,20">
+            <!-- Фільтр "Від" -->
+            <TextBlock Text="Від:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <DatePicker x:Name="dpFrom" Width="150" Height="30"/>
+            <!-- Фільтр "До" -->
+            <TextBlock Text="До:" VerticalAlignment="Center" Margin="20,0,10,0"/>
+            <DatePicker x:Name="dpTo" Width="150" Height="30"/>
+            <!-- Кнопка "Фільтр" -->
+            <Button Content="Фільтр" Width="120" Height="35" Margin="20,0" 
+                    Background="#3498DB" Foreground="White" Click="Filter_Click"/>
+            <!-- Кнопка "Скинути" -->
+            <Button Content="Скинути" Width="120" Height="35" Margin="10,0" 
+                    Background="#95A5A6" Foreground="White" Click="Reset_Click"/>
+        </StackPanel>
+
+        <!-- Таблиця для відображення активних видач -->
+        <DataGrid x:Name="dgActiveLoans" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True"
+                  CanUserSortColumns="True" Sorting="dgActiveLoans_Sorting">
+            <!-- Визначення колонок таблиці -->
+            <DataGrid.Columns>
+                <!-- Колонка "Читач" -->
+                <DataGridTextColumn Header="Читач" Binding="{Binding FullName}" Width="200" SortMemberPath="FullName"/>
+                <!-- Колонка "Книга" -->
+                <DataGridTextColumn Header="Книга" Binding="{Binding Title}" Width="300" SortMemberPath="Title"/>
+                <!-- Колонка "Видано" -->
+                <DataGridTextColumn Header="Видано" Binding="{Binding LoanDate, StringFormat='dd.MM.yyyy'}" Width="120" SortMemberPath="LoanDate"/>
+                <!-- Колонка "Термін" -->
+                <DataGridTextColumn Header="Термін" Binding="{Binding DueDate, StringFormat='dd.MM.yyyy'}" Width="120" SortMemberPath="DueDate"/>
+                <!-- Колонка "Днів прострочено" -->
+                <DataGridTextColumn Header="Днів прострочено" Binding="{Binding DaysOverdue}" Width="120" SortMemberPath="DaysOverdue"/>
+                <!-- Колонка "Дія" з кнопкою "Повернути" -->
+                <DataGridTemplateColumn Header="Дія">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Повернути" Background="#E67E22" Foreground="White" 
+                                    Click="ReturnBook_Click" Tag="{Binding LoanID}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

@@ -1,0 +1,32 @@
+<Window x:Class="StudentLibraryApp.ReportsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Звіти" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+    <!-- Головний контейнер Grid -->
+    <Grid Margin="10">
+        <!-- Визначення рядків у Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Панель з кнопками для вибору звітів -->
+        <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Топ-5 книг" Margin="5" Click="TopBooks_Click"/>
+            <Button Content="Топ-5 читачів" Margin="5" Click="TopReaders_Click"/>
+            <Button Content="Статистика жанрів" Margin="5" Click="GenreStats_Click"/>
+            <Button Content="Книги, що довго не видавались" Margin="5" Click="IdleBooks_Click"/>
+            <Button Content="Зведення по штрафах" Margin="5" Click="FinesSummary_Click"/>
+            <Button Content="Майстер-звіт по бібліотеці" Margin="5" Click="MasterReport_Click"/>
+            <Button Content="Аналіз читацьких інтересів" Margin="5" Click="ReaderInterests_Click"/>
+        </WrapPanel>
+
+        <!-- Заголовок для обраного звіту -->
+        <TextBlock x:Name="lblReportTitle" Grid.Row="1" Text="Оберіть звіт" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="10"/>
+        
+        <!-- Таблиця для відображення даних звіту -->
+        <DataGrid x:Name="dgReports" Grid.Row="2" AutoGenerateColumns="True" IsReadOnly="True"/>
+        
+    </Grid>
+</Window>

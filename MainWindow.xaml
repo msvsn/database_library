@@ -1,0 +1,84 @@
+﻿<Window x:Class="StudentLibraryApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Бібліотека" Height="700" Width="1200"
+        Background="#ECF0F1">
+    <!-- Головний контейнер Grid -->
+    <Grid Margin="20">
+        <!-- Визначення рядків у Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок вікна -->
+        <TextBlock Text="БІБЛІОТЕКА" 
+                   FontSize="32" FontWeight="Bold" 
+                   Foreground="#2C3E50" HorizontalAlignment="Center" 
+                   Margin="0,0,0,20"/>
+
+        <!-- Секція пошуку -->
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <!-- Поле для введення тексту для пошуку -->
+            <TextBox x:Name="txtSearch" Width="600" Height="50" 
+                     FontSize="18" Padding="15" Background="White" Foreground="Black"
+                     TextChanged="txtSearch_TextChanged"/>
+            <!-- Плейсхолдер для поля пошуку -->
+            <TextBlock Text="Пошук за назвою або автором..." 
+                       Foreground="#95A5A6" FontSize="18" Margin="15,0,0,0"
+                       VerticalAlignment="Center" IsHitTestVisible="False">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=txtSearch}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+
+        <!-- Панель для таблиці та кнопок керування книгами -->
+        <DockPanel Grid.Row="2">
+            <!-- Панель з кнопками "Додати", "Редагувати", "Видалити" -->
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,5,5">
+                <Button Content="Додати книгу" Click="AddBook_Click" Margin="5" Padding="10,5"/>
+                <Button Content="Редагувати книгу" Click="EditBook_Click" Margin="5" Padding="10,5"/>
+                <Button Content="Видалити книгу" Click="DeleteBook_Click" Margin="5" Padding="10,5"/>
+            </StackPanel>
+            <!-- Таблиця для відображення списку книг -->
+            <DataGrid x:Name="dgBooks" 
+                      AutoGenerateColumns="False" IsReadOnly="True"
+                      Background="White" AlternatingRowBackground="#F8F9FA">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Назва книги" Binding="{Binding Title}" Width="3*"/>
+                    <DataGridTextColumn Header="Автор" Binding="{Binding AuthorName}" Width="2*"/>
+                    <DataGridTextColumn Header="Видавництво" Binding="{Binding PublisherName}" Width="1.5*"/>
+                    <DataGridTextColumn Header="Жанр" Binding="{Binding GenreName}" Width="1.5*"/>
+                    <DataGridTextColumn Header="Рік" Binding="{Binding YearPublished}" Width="1*"/>
+                    <DataGridTextColumn Header="Доступно" Binding="{Binding QuantityAvailable}" Width="1*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+
+        <!-- Панель з основними кнопками навігації -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Видача книги" Width="150" Height="50" Margin="5" 
+                    Background="#27AE60" Foreground="White" FontSize="16" Click="IssueBook_Click"/>
+            <Button Content="Активні видачі" Width="150" Height="50" Margin="5" 
+                    Background="#F39C12" Foreground="White" FontSize="16" Click="ActiveLoans_Click"/>
+            <Button Content="Штрафи" Width="150" Height="50" Margin="5" 
+                    Background="#E74C3C" Foreground="White" FontSize="16" Click="Fines_Click"/>
+            <Button Content="Користувачі" Width="150" Height="50" Margin="5" 
+                    Background="#3498DB" Foreground="White" FontSize="16" Click="ManageReaders_Click"/>
+            <Button Content="Звіти" Width="150" Height="50" Margin="5"
+                    Background="#8E44AD" Foreground="White" FontSize="16" Click="Reports_Click"/>
+            <Button Content="Архів" Width="150" Height="50" Margin="5" 
+                Background="#7F8C8D" Foreground="White" FontSize="16" Click="Archive_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

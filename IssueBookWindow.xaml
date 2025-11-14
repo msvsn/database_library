@@ -1,0 +1,97 @@
+<Window x:Class="StudentLibraryApp.IssueBookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Видача книги" Height="700" Width="1000"
+        Background="#ECF0F1" WindowStartupLocation="CenterScreen">
+    <!-- Головний контейнер Grid -->
+    <Grid Margin="20">
+        <!-- Визначення рядків у Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок вікна -->
+        <TextBlock Text="ВИДАЧА КНИГИ" FontSize="32" FontWeight="Bold" 
+                   Foreground="#2C3E50" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <!-- Секція пошуку читача -->
+        <Grid Grid.Row="1" Margin="0,10">
+            <!-- Поле для введення тексту для пошуку читача -->
+            <TextBox x:Name="txtReaderSearch" Height="45" FontSize="18" Padding="15"
+                     TextChanged="txtReaderSearch_TextChanged"/>
+            <!-- Плейсхолдер для поля пошуку читача -->
+            <TextBlock Text="Пошук читача (ПІБ або номер картки)..." 
+                       Foreground="#95A5A6" Margin="15,0,0,0" VerticalAlignment="Center" 
+                       IsHitTestVisible="False">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=txtReaderSearch}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+
+        <!-- Таблиця для відображення результатів пошуку читачів -->
+        <DataGrid x:Name="dgReaders" Grid.Row="2" Height="150" AutoGenerateColumns="False" 
+                  SelectionChanged="dgReaders_SelectionChanged" IsReadOnly="True" Margin="0,0,0,20">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ПІБ" Binding="{Binding FullName}" Width="300"/>
+                <DataGridTextColumn Header="Картка" Binding="{Binding CardNumber}" Width="100"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding ReaderType}" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Секція пошуку книги -->
+        <Grid Grid.Row="3" Margin="0,10">
+            <!-- Поле для введення тексту для пошуку книги -->
+            <TextBox x:Name="txtBookSearch" Height="45" FontSize="18" Padding="15"
+                     TextChanged="txtBookSearch_TextChanged"/>
+            <!-- Плейсхолдер для поля пошуку книги -->
+            <TextBlock Text="Пошук книги (назва, автор, ISBN)..." 
+                       Foreground="#95A5A6" Margin="15,0,0,0" VerticalAlignment="Center" 
+                       IsHitTestVisible="False">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=txtBookSearch}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+
+        <!-- Таблиця для відображення результатів пошуку книг -->
+        <DataGrid x:Name="dgBooks" Grid.Row="4" AutoGenerateColumns="False" 
+                  SelectionChanged="dgBooks_SelectionChanged" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Назва" Binding="{Binding Title}" Width="2*"/>
+                <DataGridTextColumn Header="Автор" Binding="{Binding AuthorName}" Width="*"/>
+                <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="*"/>
+                <DataGridTextColumn Header="Доступно" Binding="{Binding QuantityAvailable}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Панель з елементами керування для видачі книги -->
+        <StackPanel Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,20">
+            <!-- Поле для вибору дати видачі -->
+            <TextBlock Text="Дата видачі:" Margin="0,0,0,5"/>
+            <DatePicker x:Name="dpLoanDate" Width="200" Height="40"/>
+            <!-- Кнопка для підтвердження видачі книги -->
+            <Button Content="ВИДАТИ КНИГУ" Width="250" Height="60" Margin="0,15,0,0"
+                    Background="#27AE60" Foreground="White" FontSize="20" FontWeight="Bold"
+                    Click="Issue_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
